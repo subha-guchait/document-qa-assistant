@@ -1,3 +1,6 @@
+storage:
+  path: ${STORAGE_PATH:./uploads}
+
 spring:
   application:
     name: document-qa-assistant
@@ -9,6 +12,11 @@ spring:
 
   flyway:
     enabled: true
+
+  servlet:
+    multipart:
+      max-file-size: 20MB
+      max-request-size: 20MB
 
 server:
   port: ${APP_PORT}
