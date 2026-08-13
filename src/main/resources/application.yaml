@@ -1,3 +1,20 @@
 spring:
   application:
     name: document-qa-assistant
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
+
+  flyway:
+    enabled: true
+
+server:
+  port: ${APP_PORT}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
