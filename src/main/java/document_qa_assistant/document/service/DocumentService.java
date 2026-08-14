@@ -6,6 +6,7 @@ import document_qa_assistant.document.exception.FileTooLargeException;
 import document_qa_assistant.document.exception.UnsupportedDocumentTypeException;
 import document_qa_assistant.document.model.Document;
 import document_qa_assistant.document.repository.DocumentRepository;
+import document_qa_assistant.ingestion.service.IngestionService;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -26,11 +27,14 @@ public class DocumentService {
 
     private final DocumentRepository documentRepository;
     private final Path storagePath;
+    private final IngestionService ingestionService;
 
     public DocumentService(
             DocumentRepository documentRepository,
+            IngestionService ingestionService,
             @Value("${storage.path}") String storagePath) {
         this.documentRepository = documentRepository;
+        this.ingestionService = ingestionService;
         this.storagePath = Paths.get(storagePath);
     }
 
@@ -77,7 +81,9 @@ public class DocumentService {
         document.setCreatedAt(now);
         document.setUpdatedAt(now);
 
-        return documentRepository.save(document);
+        Document saved = documentRepository.save(document);
+        ingestionService.submit(saved.getId());
+        return saved;
     }
 
     private void validateFile(MultipartFile file) {
