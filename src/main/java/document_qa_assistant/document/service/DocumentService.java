@@ -20,6 +20,8 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.OffsetDateTime;
 
+import org.springframework.jdbc.core.JdbcTemplate;
+
 @Service
 public class DocumentService {
 
@@ -32,7 +34,9 @@ public class DocumentService {
     public DocumentService(
             DocumentRepository documentRepository,
             IngestionService ingestionService,
+            JdbcTemplate jdbcTemplate,
             @Value("${storage.path}") String storagePath) {
+
         this.documentRepository = documentRepository;
         this.ingestionService = ingestionService;
         this.storagePath = Paths.get(storagePath);

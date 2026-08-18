@@ -1,3 +1,6 @@
+embedding:
+  provider: ${AI_PROVIDER:gemini}
+
 storage:
   path: ${STORAGE_PATH:./uploads}
 
@@ -12,6 +15,26 @@ spring:
 
   flyway:
     enabled: true
+
+  ai:
+    google:
+      genai:
+        embedding:
+          api-key: ${GEMINI_API_KEY:}
+          text:
+            model: ${GEMINI_EMBEDDING_MODEL:gemini-embedding-001}
+            dimensions: ${GEMINI_EMBEDDING_DIMENSIONS:1536}
+
+    openai:
+      api-key: ${OPENAI_API_KEY:}
+      base-url: ${OPENAI_BASE_URL:https://api.openai.com}
+      embedding:
+        model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
+        dimensions: ${OPENAI_EMBEDDING_DIMENSIONS:1536}
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      embedding:
+        model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
 
   servlet:
     multipart:
