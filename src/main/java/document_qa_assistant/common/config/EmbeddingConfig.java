@@ -22,7 +22,7 @@ import org.springframework.ai.ollama.api.OllamaEmbeddingOptions;
 
 /**
  * Creates a single {@link EmbeddingModel} bean based on the
- * {@code embedding.provider} property (sourced from the {@code AI_PROVIDER}
+ * {@code embedding.provider} property (sourced from the {@code EMBEDDING_AI_PROVIDER}
  * environment variable, defaults to {@code gemini}).
  *
  * <p>

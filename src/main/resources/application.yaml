@@ -1,12 +1,22 @@
 embedding:
-  provider: ${AI_PROVIDER:gemini}
+  provider: ${EMBEDDING_AI_PROVIDER:gemini}
+
+chat:
+  provider: ${CHAT_AI_PROVIDER:gemini}
 
 storage:
   path: ${STORAGE_PATH:./uploads}
 
+retrieval:
+  top-k: ${RETRIEVAL_TOP_K:5}
+  similarity-threshold: ${RETRIEVAL_SIMILARITY_THRESHOLD:0.5}
+
 spring:
   application:
     name: document-qa-assistant
+
+  config:
+    import: "optional:file:.env[.properties]"
 
   datasource:
     url: ${DB_URL}
@@ -19,11 +29,14 @@ spring:
   ai:
     google:
       genai:
+        api-key: ${GEMINI_API_KEY:}
         embedding:
           api-key: ${GEMINI_API_KEY:}
           text:
             model: ${GEMINI_EMBEDDING_MODEL:gemini-embedding-001}
             dimensions: ${GEMINI_EMBEDDING_DIMENSIONS:1536}
+        chat:
+          model: ${GEMINI_CHAT_MODEL:gemini-2.5-flash}
 
     openai:
       api-key: ${OPENAI_API_KEY:}
@@ -31,10 +44,14 @@ spring:
       embedding:
         model: ${OPENAI_EMBEDDING_MODEL:text-embedding-3-small}
         dimensions: ${OPENAI_EMBEDDING_DIMENSIONS:1536}
+      chat:
+        model: ${OPENAI_CHAT_MODEL:gpt-4o-mini}
     ollama:
       base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
       embedding:
         model: ${OLLAMA_EMBEDDING_MODEL:nomic-embed-text}
+      chat:
+        model: ${OLLAMA_CHAT_MODEL:llama3.2}
 
   servlet:
     multipart:
