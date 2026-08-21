@@ -2,6 +2,7 @@ package document_qa_assistant;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 
 import document_qa_assistant.common.config.RetrievalProperties;
@@ -22,6 +23,7 @@ import document_qa_assistant.common.config.RetrievalProperties;
 		org.springframework.ai.model.google.genai.autoconfigure.chat.GoogleGenAiChatAutoConfiguration.class
 })
 @EnableConfigurationProperties(RetrievalProperties.class)
+@ConfigurationPropertiesScan
 public class DocumentQaAssistantApplication {
 
 	public static void main(String[] args) {

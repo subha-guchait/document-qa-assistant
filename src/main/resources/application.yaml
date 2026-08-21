@@ -11,6 +11,10 @@ retrieval:
   top-k: ${RETRIEVAL_TOP_K:5}
   similarity-threshold: ${RETRIEVAL_SIMILARITY_THRESHOLD:0.5}
 
+conversation:
+  max-history-turns: ${CONVERSATION_MAX_HISTORY_TURNS:6}
+  max-history-tokens: ${CONVERSATION_MAX_HISTORY_TOKENS:3000}
+
 spring:
   application:
     name: document-qa-assistant
