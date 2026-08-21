@@ -1,7 +1,7 @@
 package document_qa_assistant.qa.service;
 
-import document_qa_assistant.qa.model.QaResponse;
-import document_qa_assistant.qa.model.SourceReference;
+import document_qa_assistant.qa.dto.QaResponse;
+import document_qa_assistant.qa.dto.SourceReference;
 import document_qa_assistant.retrieval.model.RetrievedChunk;
 import document_qa_assistant.retrieval.service.RetrievalService;
 
