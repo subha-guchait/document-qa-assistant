@@ -1,8 +1,11 @@
 package document_qa_assistant.common.exception;
 
+import document_qa_assistant.common.dto.ErrorResponse;
 import document_qa_assistant.document.exception.DocumentAlreadyExistsException;
 import document_qa_assistant.document.exception.FileTooLargeException;
 import document_qa_assistant.document.exception.UnsupportedDocumentTypeException;
+
+import io.swagger.v3.oas.annotations.Hidden;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,41 +15,41 @@ import org.springframework.web.method.annotation.HandlerMethodValidationExceptio
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.MissingRequestHeaderException;
 
-import java.util.Map;
 import java.util.stream.Collectors;
 
+@Hidden
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
         @ExceptionHandler(DocumentAlreadyExistsException.class)
-        public ResponseEntity<Map<String, String>> handleDuplicate(
+        public ResponseEntity<ErrorResponse> handleDuplicate(
                         DocumentAlreadyExistsException exception) {
 
                 return ResponseEntity
                                 .status(HttpStatus.CONFLICT)
-                                .body(Map.of("error", exception.getMessage()));
+                                .body(new ErrorResponse(exception.getMessage()));
         }
 
         @ExceptionHandler(UnsupportedDocumentTypeException.class)
-        public ResponseEntity<Map<String, String>> handleUnsupportedType(
+        public ResponseEntity<ErrorResponse> handleUnsupportedType(
                         UnsupportedDocumentTypeException exception) {
 
                 return ResponseEntity
                                 .status(HttpStatus.UNSUPPORTED_MEDIA_TYPE)
-                                .body(Map.of("error", exception.getMessage()));
+                                .body(new ErrorResponse(exception.getMessage()));
         }
 
         @ExceptionHandler(FileTooLargeException.class)
-        public ResponseEntity<Map<String, String>> handleFileTooLarge(
+        public ResponseEntity<ErrorResponse> handleFileTooLarge(
                         FileTooLargeException exception) {
 
                 return ResponseEntity
                                 .status(HttpStatus.CONTENT_TOO_LARGE)
-                                .body(Map.of("error", exception.getMessage()));
+                                .body(new ErrorResponse(exception.getMessage()));
         }
 
         @ExceptionHandler(MethodArgumentNotValidException.class)
-        public ResponseEntity<Map<String, String>> handleValidation(
+        public ResponseEntity<ErrorResponse> handleValidation(
                         MethodArgumentNotValidException exception) {
 
                 String message = exception.getBindingResult()
@@ -57,37 +60,35 @@ public class GlobalExceptionHandler {
 
                 return ResponseEntity
                                 .badRequest()
-                                .body(Map.of("error", message));
+                                .body(new ErrorResponse(message));
         }
 
         @ExceptionHandler(IllegalArgumentException.class)
-        public ResponseEntity<Map<String, String>> handleBadRequest(
+        public ResponseEntity<ErrorResponse> handleBadRequest(
                         IllegalArgumentException exception) {
 
                 return ResponseEntity
                                 .badRequest()
-                                .body(Map.of("error", exception.getMessage()));
+                                .body(new ErrorResponse(exception.getMessage()));
         }
 
         @ExceptionHandler(MissingRequestHeaderException.class)
-        public ResponseEntity<Map<String, String>> handleMissingHeader(
+        public ResponseEntity<ErrorResponse> handleMissingHeader(
                         MissingRequestHeaderException exception) {
 
                 return ResponseEntity
                                 .badRequest()
-                                .body(Map.of(
-                                                "error",
+                                .body(new ErrorResponse(
                                                 exception.getHeaderName() + " header is required"));
         }
 
         @ExceptionHandler(HandlerMethodValidationException.class)
-        public ResponseEntity<Map<String, String>> handleMethodValidation(
+        public ResponseEntity<ErrorResponse> handleMethodValidation(
                         HandlerMethodValidationException exception) {
 
                 return ResponseEntity
                                 .badRequest()
-                                .body(Map.of(
-                                                "error",
+                                .body(new ErrorResponse(
                                                 "X-Tenant-Id must not be blank"));
         }
 }
